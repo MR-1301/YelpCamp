@@ -1,7 +1,9 @@
+// requiring
 const express=require('express');
 const path=require('path');
 const mongoose=require('mongoose');
-const Campground=require('./models/campground')
+const methodOverride=require('method-override');
+const Campground=require('./models/campground');
 
 //connect to local MongoDB
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
@@ -16,18 +18,37 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
+//sets and uses
 const app=express();
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
+app.use(express.urlencoded({extended:true}));
+app.use(methodOverride('_method'));
 
+//all routes
 app.get('/',(req,res) => {
     res.render('home')
 });
 
-app.get('/makecampground',async (req,res) => {
-    const camp=new Campground({title:'My BackYard', description:'Cheap camping option'});
-    await camp.save();
-    res.send(camp);
+app.get('/campgrounds',async (req,res) => {
+    const allCampgrounds=await Campground.find({});
+    res.render('./campgrounds/index',{allCampgrounds});
+});
+
+app.post('/campgrounds',async (req,res) => {;
+    const newCampground=new Campground(req.body.campground);
+    await newCampground.save();
+    res.redirect(`/campgrounds/${newCampground._id}`);
+});
+
+app.get('/campgrounds/new',(req,res) => {
+    res.render('campgrounds/new');
+})
+
+app.get('/campgrounds/:id',async (req,res) => {
+    const {id}=req.params;
+    const currCampground=await Campground.findById(id);
+    res.render('./campgrounds/show',{currCampground});
 });
 
 const port=3000;
