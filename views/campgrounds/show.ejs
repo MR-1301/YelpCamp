@@ -10,7 +10,15 @@
             <li><b>location :</b> <%= currCampground.location %>  </li>
         </ul> 
 
+        <button onclick="location.href='/campgrounds/<%= currCampground._id %>/edit'">Edit This Campground</button><br><br>
+        
+        <form action="/campgrounds/<%=currCampground._id%>?_method=DELETE" method="POST">
+            <button>Delete This Campground</button>
+        </form><br><br>
         <button onclick="location.href='/campgrounds'">Go to All Campgrounds</button>
+
         <script src=""></script>
+
+
     </body>
 </html>

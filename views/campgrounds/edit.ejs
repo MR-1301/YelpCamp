@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>New Campground</title>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h1>Edit This Campground</h1>
+        <br>
+        <form action="/campgrounds/<%=currInfo._id%>?_method=PUT" method="POST">
+            <label for="title">Title: </label>    
+            <input type="text" name="campground[title]" id="title" placeholder="enter title.." value="<%= currInfo.title %> ">
+            <br><br>
+            <label for="location">Location:</label>
+            <input type="text" name="campground[location]" id="location" placeholder="enter location.." value="<%= currInfo.location %> ">
+
+            <button>Edit</button>
+        </form>
+        <br><br>
+        <button onclick="location.href='/campgrounds/<%= currInfo.id %>'">Cancel Edit</button>
+        <br><br>
+        <button onclick="location.href='/campgrounds'">Go Back to All Campground</button>
+        
+        <script src=""></script>
+    </body>
+</html>
