@@ -2,6 +2,7 @@
 const express=require('express');
 const path=require('path');
 const mongoose=require('mongoose');
+const ejsMate=require('ejs-mate');
 const methodOverride=require('method-override');
 const Campground=require('./models/campground');
 
@@ -21,6 +22,7 @@ db.once("open", () => {
 //sets and uses
 const app=express();
 app.set('views',path.join(__dirname,'views'));
+app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));

@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> <%= currCampground.title %> </title>
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
+<% layout('layouts/boilerplate') %> 
         <h2>Information about <i><%= currCampground.title %></i> : </h2>
         <ul>
             <li><b>location :</b> <%= currCampground.location %>  </li>
@@ -17,8 +11,4 @@
         </form><br><br>
         <button onclick="location.href='/campgrounds'">Go to All Campgrounds</button>
 
-        <script src=""></script>
-
-
-    </body>
-</html>
+<% layout('../layouts/boilerplate') %> 

@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>New Campground</title>
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
+<% layout('layouts/boilerplate') %> 
         <h1>Edit This Campground</h1>
         <br>
         <form action="/campgrounds/<%=currInfo._id%>?_method=PUT" method="POST">
@@ -21,6 +15,3 @@
         <br><br>
         <button onclick="location.href='/campgrounds'">Go Back to All Campground</button>
         
-        <script src=""></script>
-    </body>
-</html>
