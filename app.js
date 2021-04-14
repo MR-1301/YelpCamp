@@ -9,9 +9,21 @@ const Campground = require("./models/campground");
 const expressError = require("./utils/expressErrors");
 const catchAsync = require("./utils/catchAsync");
 const { campgroundSchema } = require("./schema");
+const { reviewSchema } = require("./schema");
+const Review = require("./models/review");
 
 const validateCampground = (req, res, next) => {
   const { error } = campgroundSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new expressError(msg, 400);
+  } else {
+    return next();
+  }
+};
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new expressError(msg, 400);
@@ -81,7 +93,8 @@ app.get(
   "/campgrounds/:id",
   catchAsync(async (req, res, next) => {
     const { id } = req.params;
-    const currCampground = await Campground.findById(id);
+    const currCampground = await Campground.findById(id).populate("reviews");
+    // console.log(currCampground);
     res.render("./campgrounds/show", { currCampground });
   })
 );
@@ -104,6 +117,35 @@ app.delete(
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     res.redirect("/campgrounds");
+  })
+);
+
+app.post(
+  "/campgrounds/:id/reviews",
+  validateReview,
+  catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const cg = await Campground.findById(id);
+    const rv = new Review(req.body.review);
+    cg.reviews.push(rv);
+
+    await rv.save();
+    await cg.save();
+
+    res.redirect(`/campgrounds/${id}`);
+  })
+);
+
+app.delete(
+  "/campgrounds/:id/reviews/:reviewId",
+  catchAsync(async (req, res, next) => {
+    const { id, reviewId } = req.params;
+    const delRev = await Campground.findByIdAndUpdate(id, {
+      $pull: { reviews: reviewId },
+    });
+    console.log(delRev);
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/campgrounds/${id}`);
   })
 );
 
