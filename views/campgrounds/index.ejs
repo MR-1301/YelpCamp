@@ -1,4 +1,11 @@
 <% layout('layouts/boilerplate') %>
+
+<div class="mb-3 text-center">
+  <button class="btn btn-success" onclick="location.href='/campgrounds/new'">
+    Add New Campground
+  </button>
+</div>
+
 <h1>All the Campgrounds are as follows:</h1>
 
 <% for(let campground of allCampgrounds) {%>
@@ -27,9 +34,3 @@
   </div>
 </div>
 <% } %>
-
-<div class="mb-3 text-center">
-  <button class="btn btn-success" onclick="location.href='/campgrounds/new'">
-    Add New Campground
-  </button>
-</div>
