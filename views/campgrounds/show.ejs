@@ -15,8 +15,12 @@
         <li class="list-group-item text-muted">
           <%= currCampground.location %>
         </li>
+        <li class="list-group-item">
+          Submitted by <strong><%= currCampground.author.username %></strong>
+        </li>
         <li class="list-group-item">$<%= currCampground.price %>/night</li>
       </ul>
+      <% if (currentUser && currCampground.author.equals(currentUser._id)){ %>
       <div class="card-body">
         <a
           href="/campgrounds/<%= currCampground._id %>/edit"
@@ -31,11 +35,13 @@
           <button class="card-link btn btn-danger">Delete</button>
         </form>
       </div>
+        <%}%>
       <div class="card-footer text-muted">2 days ago</div>
     </div>
   </div>
 
   <div class="col-6">
+    <% if(currentUser) {%>
     <h2>Leave a Review:</h2>
     <form
       action="/campgrounds/<%= currCampground._id %>/reviews"
@@ -69,21 +75,20 @@
 
       <button class="btn btn-success">Submit</button>
     </form>
-
-    <% for(let x of currCampground.reviews) {%>
-    <div class="mb-3 card">
-      <div class="card-body">
-        <p>Rating: <%= x.rating %></p>
-        <p>Review: <%= x.body %></p>
-        <form
-          class="d-inline"
-          action="/campgrounds/<%=currCampground._id%>/reviews/<%= x._id %>?_method=DELETE"
-          method="POST"
-        >
-          <button class="btn btn-sm btn-danger">Delete</button>
-        </form>
-      </div>
-    </div>
     <% } %>
+      <% for(let review of currCampground.reviews) { %>
+        <div class="card mb-3 ">
+          <div class="card-body">
+            <h5 class="card-title">Rating: <%= review.rating %></h5>
+            <h6 class="card-subtitle mb-2 text-muted">By <%= review.author.username%></h6>
+            <p class="card-text">Review: <%= review.body %></p>
+            <%  if( currentUser && review.author.equals(currentUser._id))  {%>
+            <form action="/campgrounds/<%=currCampground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
   </div>
 </div>

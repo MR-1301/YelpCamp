@@ -20,10 +20,10 @@ router.post("/register", catchAsync(async (req, res,next) => {
         return next(err);
     })
     req.flash('success', 'Successfully Registered');
-    res.redirect('/campgrounds');
+    return res.redirect('/campgrounds');
   } catch (err) {
     req.flash('error', err.message);
-    res.redirect('/register');
+    return res.redirect('/register');
   }
 }));
 
@@ -32,14 +32,13 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', passport.authenticate('local', {
-  failureFlash: true,
-  failureRedirect: '/login'
-}), catchAsync((req, res) => {
+  failureFlash: true, failureRedirect: '/login'
+}), (req, res) => {
   req.flash('success', 'Welcome Back!')
   const redirectUrl=req.session.returnTo || '/campgrounds';
   delete req.session.returnTo;
   res.redirect(redirectUrl);
-}));
+});
 
 router.get('/logout',(req, res) =>{
   req.logout();
