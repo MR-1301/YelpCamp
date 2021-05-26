@@ -1,105 +1,113 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="row">
-  <h1 class="text-center">Edit Campground</h1>
-  <div class="col-6 offset-3">
-    <form
-      action="/campgrounds/<%=currInfo._id%>?_method=PUT"
-      method="POST"
-      class="validated-form"
-      novalidate
-    >
-      <div class="mb-3">
-        <label class="form-lable" for="title">Title: </label>
-        <input
-          class="form-control"
-          type="text"
-          name="campground[title]"
-          id="title"
-          placeholder="enter title.."
-          value="<%= currInfo.title %>"
-          required
-        />
-        <div class="valid-feedback">Looks Alright!!</div>
-      </div>
+    <h1 class="text-center">Edit Campground</h1>
+    <div class="col-6 offset-3">
+        <form
+                action="/campgrounds/<%= currInfo._id %>?_method=PUT"
+                method="POST"
+                class="validated-form"
+                enctype="multipart/form-data"
+                novalidate
+        >
+            <div class="mb-3">
+                <label class="form-lable" for="title">Title: </label>
+                <input
+                        class="form-control"
+                        type="text"
+                        name="campground[title]"
+                        id="title"
+                        placeholder="enter title.."
+                        value="<%= currInfo.title %>"
+                        required
+                />
+                <div class="valid-feedback">Looks Alright!!</div>
+            </div>
 
-      <div class="mb-3">
-        <label class="form-lable" for="location">Location:</label>
-        <input
-          class="form-control"
-          type="text"
-          name="campground[location]"
-          id="location"
-          placeholder="enter location.."
-          value="<%= currInfo.location %>"
-          required
-        />
-        <div class="valid-feedback">Looks Alright!!</div>
-      </div>
+            <div class="mb-3">
+                <label class="form-lable" for="location">Location:</label>
+                <input
+                        class="form-control"
+                        type="text"
+                        name="campground[location]"
+                        id="location"
+                        placeholder="enter location.."
+                        value="<%= currInfo.location %>"
+                        required
+                />
+                <div class="valid-feedback">Looks Alright!!</div>
+            </div>
 
-      <div class="mb-3">
-        <label class="form-lable" for="image">Image URL:</label>
-        <input
-          class="form-control"
-          type="text"
-          name="campground[image]"
-          id="image"
-          placeholder="enter image url.."
-          value="<%= currInfo.image %>"
-          required
-        />
-        <div class="valid-feedback">Looks Alright!!</div>
-      </div>
+            <div class="mb-3">
+                <label class="form-lable" for="price">Price:</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input
+                            type="text"
+                            class="form-control"
+                            placeholder="0.00"
+                            name="campground[price]"
+                            aria-label="price"
+                            aria-describedby="price-label"
+                            value="<%= currInfo.price %>"
+                            required
+                    />
+                </div>
 
-      <div class="mb-3">
-        <label class="form-lable" for="price">Price:</label>
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="price-label">$</span>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="0.00"
-            name="campground[price]"
-            aria-label="price"
-            aria-describedby="price-label"
-            value="<%= currInfo.price %>"
-            required
-          />
+                <div class="valid-feedback">Looks Alright!!</div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-lable" for="description">Description:</label>
+                <textarea
+                        class="form-control"
+                        type="text"
+                        name="campground[description]"
+                        id="description"
+                        placeholder="enter description.."
+                        required
+                ><%= currInfo.description %>
+                </textarea>
+                <div class="valid-feedback">Looks Alright!!</div>
+            </div>
+
+            <div class="mb-3">
+                <div class="form-file custom-file">
+                    <input type="file" class="form-file-input" id="image" name="campground[image]" multiple>
+                    <label class="form-file-label" for="image">
+                        <span class="form-file-text custom-file-label">Add more image(s)...</span>
+                        <span class="form-file-button">Browse</span>
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-lable my-3">Click on Images to delete:</label><br>
+                <% currInfo.images.forEach(function (pic, i) { %>
+                    <div class="form-check-inline">
+                        <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=pic.filename%>">
+                        <label for="image-<%=i%>"><img src="<%= pic.thumbnail %>" class="img-thumbnail mb-2" alt=""></label>
+                    </div>
+                <% }) %>
+
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-info ">Edit Campground</button>
+            </div>
+        </form>
+
+        <div class="mb-3">
+            <button
+                    class="btn btn-secondary"
+                    onclick="location.href='/campgrounds/<%= currInfo.id %>'"
+            >
+                Cancel Edit
+            </button>
         </div>
-
-        <div class="valid-feedback">Looks Alright!!</div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-lable" for="description">Description:</label>
-        <textarea
-          class="form-control"
-          type="text"
-          name="campground[description]"
-          id="description"
-          placeholder="enter description.."
-          required
-        >
-<%= currInfo.description %></textarea
-        >
-        <div class="valid-feedback">Looks Alright!!</div>
-      </div>
-
-      <div class="mb-3">
-        <button class="btn btn-info">Edit Campground</button>
-      </div>
-    </form>
-
-    <div class="mb-3">
-      <button
-        class="btn btn-secondary"
-        onclick="location.href='/campgrounds/<%= currInfo.id %>'"
-      >
-        Cancel Edit
-      </button>
+        <button class="btn btn-dark mb-3" onclick="location.href='/campgrounds'">
+            Go Back to All Campground
+        </button>
     </div>
-    <button class="btn btn-dark" onclick="location.href='/campgrounds'">
-      Go Back to All Campground
-    </button>
-  </div>
 </div>
