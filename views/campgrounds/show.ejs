@@ -1,9 +1,8 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/stylesheets/starability-heart.css">
-
+<link rel="stylesheet" href="/stylesheets/app.css"></link>
 <div class="row">
     <div class="col-6">
-        <div id='map' style='width: 400px; height: 300px;'></div>
         <div class="card mb-3">
             <div id="campgroundCarousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -60,6 +59,7 @@
     </div>
 
     <div class="col-6">
+        <div id='map' class="mb-5"></div>
         <% if(currentUser) { %>
             <h2>Leave a Review:</h2>
             <form
@@ -68,7 +68,7 @@
                     class="mb-3 validated-form"
                     novalidate
             >
-                <div class="mb-3">
+                <div>
                     <fieldset class="starability-heart">
                         <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked
                                aria-label="No rating."/>

@@ -5,6 +5,7 @@ const map = new mapboxgl.Map({
   center: currCamp.geometry.coordinates,
   zoom: 10
 });
+map.addControl(new mapboxgl.NavigationControl());
 
 new mapboxgl.Marker()
   .setLngLat(currCamp.geometry.coordinates)
