@@ -1,10 +1,10 @@
 {
-  "name": "YelpCamp",
+  "name": "yelpcamp",
   "version": "1.0.0",
   "description": "Udemy The Web Developer Bootcamp 2021 Project on Full Stack Web Devlopement",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
